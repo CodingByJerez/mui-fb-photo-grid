@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import React, { FunctionComponent } from 'react';
+import React, { Fragment, FunctionComponent } from 'react';
 
 interface IAspectRatioBoxProps {
   ratio?: number;
@@ -7,7 +7,7 @@ interface IAspectRatioBoxProps {
 
 const AspectRatioBox: FunctionComponent<IAspectRatioBoxProps> = ({ children, ratio }) => {
   if (!ratio) {
-    return <React.Fragment>{children}</React.Fragment>;
+    return <Fragment>{children}</Fragment>;
   }
   return (
     <Box position={'relative'}>

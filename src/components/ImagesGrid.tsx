@@ -1,6 +1,7 @@
 import { alpha, Card, CardActionArea, CardContent, Grid, styled, Typography } from '@mui/material';
-import React, { FunctionComponent } from 'react';
+import React, { Component, createRef, Fragment, FunctionComponent, ReactNode, RefObject } from 'react';
 import AspectRatioBox from './AspectRatioBox';
+import LightBox, { ILightBoxRef } from './Iightbox';
 
 //------------------------------------------------------
 
@@ -40,16 +41,20 @@ interface IProps {
 
 interface IState {
   fistImagePosition?: ORIENTATION;
+  lightBox: null | number;
 }
 
-class ImagesGrid extends React.Component<IProps, IState> {
-  private _fistImage: React.RefObject<HTMLImageElement>;
+class ImagesGrid extends Component<IProps, IState> {
+  private _fistImage: RefObject<HTMLImageElement>;
+  private _lightBoxRef: RefObject<ILightBoxRef>;
 
   constructor(props: IProps) {
     super(props);
-    this._fistImage = React.createRef();
+    this._fistImage = createRef();
+    this._lightBoxRef = createRef();
     this.state = {
       fistImagePosition: undefined,
+      lightBox: null,
     };
   }
 
@@ -67,6 +72,10 @@ class ImagesGrid extends React.Component<IProps, IState> {
     }
   };
 
+  private _handleImageClick = (imageIndex: number): void => {
+    this._lightBoxRef.current?.open(imageIndex);
+  };
+
   private _HoverMoreRender = ({ imageCount }: { imageCount: number }): JSX.Element => {
     return (
       <MoreHoverStyle>
@@ -79,7 +88,7 @@ class ImagesGrid extends React.Component<IProps, IState> {
 
   public _OneImageRender: FunctionComponent<{ image: IImage }> = ({ image: { title, img } }) => {
     return (
-      <CardActionArea>
+      <CardActionArea onClick={() => this._handleImageClick(0)}>
         <Grid container>
           <Grid item xs={12}>
             <CoverStyle alt={title} src={img} />
@@ -94,7 +103,7 @@ class ImagesGrid extends React.Component<IProps, IState> {
       <Grid container spacing={0.2}>
         {images.map(({ title, img }, index) => (
           <Grid key={`${index}-${img}`} item xs={6}>
-            <CardActionArea>
+            <CardActionArea onClick={() => this._handleImageClick(index)}>
               <AspectRatioBox ratio={1}>
                 <CoverStyle alt={title} src={img} />
               </AspectRatioBox>
@@ -116,7 +125,7 @@ class ImagesGrid extends React.Component<IProps, IState> {
             <Grid container spacing={0.2}>
               {images.slice(0, imageCount < 5 ? 1 : 2).map(({ title, img }, index) => (
                 <Grid key={`${index}-${img}`} item xs={imageCount < 5 ? 12 : 6}>
-                  <CardActionArea>
+                  <CardActionArea onClick={() => this._handleImageClick(index)}>
                     <AspectRatioBox ratio={imageCount < 5 ? undefined : 1}>
                       <CoverStyle ref={index === 0 ? this._fistImage : undefined} alt={title} src={img} onLoad={index === 0 ? this._handleImageLoad : undefined} />
                     </AspectRatioBox>
@@ -129,7 +138,7 @@ class ImagesGrid extends React.Component<IProps, IState> {
             <Grid container spacing={0.2}>
               {images.slice(imageCount < 5 ? 1 : 2, 5).map(({ title, img }, index) => (
                 <Grid key={`${index}-${img}`} item xs={imageCount === 3 ? 6 : 4}>
-                  <CardActionArea>
+                  <CardActionArea onClick={() => this._handleImageClick(index + (imageCount < 5 ? 1 : 2))}>
                     <AspectRatioBox ratio={1}>
                       <CoverStyle alt={title} src={img} />
                     </AspectRatioBox>
@@ -147,7 +156,7 @@ class ImagesGrid extends React.Component<IProps, IState> {
       <AspectRatioBox ratio={1}>
         <Grid container spacing={0.2}>
           <Grid item xs={imageCount === 3 ? 6 : 8}>
-            <CardActionArea sx={{ height: '100%' }}>
+            <CardActionArea sx={{ height: '100%' }} onClick={() => this._handleImageClick(0)}>
               <CoverStyle ref={this._fistImage} alt={imageFirst.title} src={imageFirst.img} onLoad={this._handleImageLoad} />
             </CardActionArea>
           </Grid>
@@ -155,7 +164,7 @@ class ImagesGrid extends React.Component<IProps, IState> {
             <Grid container spacing={0.2}>
               {images.slice(1).map(({ title, img }, index) => (
                 <Grid key={`${index}-${img}`} item xs={12}>
-                  <CardActionArea>
+                  <CardActionArea onClick={() => this._handleImageClick(index + 1)}>
                     <AspectRatioBox ratio={1}>
                       <CoverStyle alt={title} src={img} />
                     </AspectRatioBox>
@@ -170,32 +179,30 @@ class ImagesGrid extends React.Component<IProps, IState> {
     );
   };
 
-  public render(): React.ReactNode {
+  private _SelectorRender = () => {
     const { _OneImageRender, _TowImageRender, _ThreeAndMoreImageRender } = this;
     const { images } = this.props;
-
     const imageCount = images.length;
-    if (imageCount === 1) {
-      return (
-        <Card>
-          <_OneImageRender image={images[0]} />
-        </Card>
-      );
-    } else if (imageCount === 2) {
-      return (
-        <Card>
-          <_TowImageRender images={images as unknown as [IImage, IImage]} />
-        </Card>
-      );
-    } else if (imageCount > 2) {
-      return (
-        <Card>
-          <_ThreeAndMoreImageRender images={images} />
-        </Card>
-      );
-    }
 
-    return <React.Fragment></React.Fragment>;
+    if (imageCount === 1) {
+      return <_OneImageRender image={images[0]} />;
+    } else if (imageCount === 2) {
+      return <_TowImageRender images={images as unknown as [IImage, IImage]} />;
+    } else if (imageCount > 2) {
+      return <_ThreeAndMoreImageRender images={images} />;
+    }
+    return <Fragment></Fragment>;
+  };
+
+  public render(): ReactNode {
+    const { _SelectorRender, _lightBoxRef } = this;
+    const { images } = this.props;
+    return (
+      <Card>
+        <_SelectorRender />
+        <LightBox ref={_lightBoxRef} images={images} />
+      </Card>
+    );
   }
 }
 

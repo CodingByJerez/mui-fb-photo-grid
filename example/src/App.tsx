@@ -44,10 +44,10 @@ const GROUP_NUM_IMAGE = [ONE, TOW, THREE, FOUR, FIVE, MORE];
 const App: React.FunctionComponent = () => {
   return (
     <Stack spacing={5}>
-      {GROUP_NUM_IMAGE.map(group => (
-        <Grid container spacing={3}>
-          {group.map(images => (
-            <Grid item xs={group.length}>
+      {GROUP_NUM_IMAGE.map((group, groupIndex) => (
+        <Grid key={groupIndex} container spacing={3}>
+          {group.map((images, imageIndex) => (
+            <Grid key={imageIndex} item xs={group.length}>
               <MuiFbPhotoGrid images={images} />
             </Grid>
           ))}
