@@ -1,0 +1,53 @@
+# Name for the github action
+name: Release
+
+# Trigger this action when we push to master or merge a pull-request to masteron:
+on:
+  push:
+    branches:
+      - master
+
+# runs the jobs
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/master'}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+          #registry-url: 'https://registry.npmjs.org'
+          scope: '@octocat'
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+
+      - name: Yarn Cache
+        uses: actions/cache@v2 
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: |
+          yarn install --cwd example --frozen-lockfile
+          yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+
+      - name: Release
+        run: yarn semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

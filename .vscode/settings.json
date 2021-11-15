@@ -1,0 +1,19 @@
+{
+    "workbench.iconTheme": "vscode-icons-mac",
+    "workbench.colorTheme": "Default Dark+",
+    "editor.formatOnSave": true,
+    "typescript.preferences.importModuleSpecifier": "relative",
+
+    "[typescript]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true,
+        "source.organizeImports": true
+    }
+}
