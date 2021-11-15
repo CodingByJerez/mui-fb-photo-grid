@@ -8,22 +8,11 @@
 
 ```bash
 npm install --save mui-fb-photo-grid
+or
+yarn add mui-fb-photo-grid
 ```
 
 ## Usage
-
-```tsx
-import React, { Component } from 'react'
-
-import MyComponent from 'mui-fb-photo-grid'
-import 'mui-fb-photo-grid/dist/index.css'
-
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
-}
-```
 
 ## License
 
