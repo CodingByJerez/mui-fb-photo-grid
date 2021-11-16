@@ -35,7 +35,7 @@ type IImage = { title: string; img: string; imgThumbnail?: string };
 
 interface IProps {
   images: IImage[];
-  reactModalStyle?: any;
+  reactModalStyle?: unknown;
 }
 
 interface IState {

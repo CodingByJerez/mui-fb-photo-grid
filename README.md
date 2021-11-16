@@ -4,7 +4,7 @@
 
 ## Demo
 
-<img src="https://github.com/CodingByJerez/mui-fb-photo-grid/blob/master/.github/images/dialog-light.gif?raw=true" height="350" alt="demo mui-fb-photo-grid" />
+<img src="https://github.com/CodingByJerez/mui-fb-photo-grid/master/.github/images/dialog-light.gif?raw=true" height="350" alt="demo mui-fb-photo-grid" />
 
 ## Install
 

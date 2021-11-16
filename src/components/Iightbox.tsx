@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import React, { forwardRef, ForwardRefRenderFunction, Fragment, useImperativeHandle, useState } from 'react';
 import ReactImageLightBox from 'react-image-lightbox';
 import { IImage } from './ImagesGrid';
@@ -8,7 +10,7 @@ type IRef = {
 
 interface IProps {
   images: IImage[];
-  reactModalStyle?: any;
+  reactModalStyle?: unknown;
 }
 
 const LightBox: ForwardRefRenderFunction<IRef, IProps> = ({ images, reactModalStyle }, ref) => {
@@ -25,6 +27,7 @@ const LightBox: ForwardRefRenderFunction<IRef, IProps> = ({ images, reactModalSt
   };
 
   const handleChangeImage = (direction: 'prev' | 'next') => () => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     setCurrentIndex(prevCurrentIndex => (prevCurrentIndex + direction === 'prev' ? (prevCurrentIndex! + images.length - 1) % images.length : (prevCurrentIndex! + 1) % images.length));
   };
 
