@@ -21,9 +21,6 @@
     "grid"
   ],
   
-  "publishConfig": {
-    "registry": "https://www.npmjs.com/package/mui-fb-photo-grid"
-  },
   "bugs": {
     "url": "https://github.com/CodingByJerez/mui-fb-photo-grid/issues"
   },
