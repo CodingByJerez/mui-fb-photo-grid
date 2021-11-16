@@ -2,8 +2,8 @@
   "private": false,
   "name": "mui-fb-photo-grid",
   "version": "1.2.0",
-  "description": "Made with create-react-library",
-  "author": "CodingByJerez",
+  "description": "gallery images similar facebook",
+  "author": "Rodolphe Jerez <contact@codingbyjerez.com> (http://github.com/codingbyjerez)",
   "license": "MIT",
   "repository": "CodingByJerez/mui-fb-photo-grid",
   "main": "dist/index.js",
@@ -12,6 +12,21 @@
   "engines": {
     "node": ">=10"
   },
+  "keywords": [
+    "react",
+    "mui",
+    "image",
+    "preview",
+    "grid"
+  ],
+  
+  "publishConfig": {
+    "registry": "https://www.npmjs.com/package/mui-fb-photo-grid"
+  },
+  "bugs": {
+    "url": "https://github.com/CodingByJerez/mui-fb-photo-grid/issues"
+  },
+  "homepage": "https://github.com/CodingByJerez/mui-fb-photo-grid#readme",
   "scripts": {
     "commit": "git-cz",
     "build": "microbundle-crl --no-compress --format modern,cjs",
