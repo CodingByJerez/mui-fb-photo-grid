@@ -48,7 +48,12 @@ const App: React.FunctionComponent = () => {
         <Grid key={groupIndex} container spacing={3}>
           {group.map((images, imageIndex) => (
             <Grid key={imageIndex} item xs={group.length}>
-              <MuiFbPhotoGrid images={images} />
+              <MuiFbPhotoGrid
+                images={images}
+                reactModalStyle={{
+                  overlay: { zIndex: 3000 },
+                }}
+              />
             </Grid>
           ))}
         </Grid>

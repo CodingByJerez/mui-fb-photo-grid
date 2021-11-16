@@ -9,9 +9,10 @@ type IRef = {
 
 interface IProps {
   images: IImage[];
+  reactModalStyle?: any;
 }
 
-const LightBox: ForwardRefRenderFunction<IRef, IProps> = ({ images }, ref) => {
+const LightBox: ForwardRefRenderFunction<IRef, IProps> = ({ images, reactModalStyle }, ref) => {
   const [currentIndex, setCurrentIndex] = useState<null | number>(null);
 
   useImperativeHandle(ref, () => ({
@@ -34,6 +35,7 @@ const LightBox: ForwardRefRenderFunction<IRef, IProps> = ({ images }, ref) => {
 
   return (
     <ReactImageLightBox
+      reactModalStyle={reactModalStyle}
       mainSrc={images[currentIndex].img}
       nextSrc={images[(currentIndex + 1) % images.length]?.img}
       prevSrc={images[(currentIndex + images.length - 1) % images.length].img}

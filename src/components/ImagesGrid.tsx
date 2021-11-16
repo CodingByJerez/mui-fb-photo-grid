@@ -20,8 +20,6 @@ const MoreHoverStyle = styled(CardContent)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   position: 'absolute',
-  //backdropFilter: 'blur(3px)',
-  // WebkitBackdropFilter: 'blur(3px)', // Fix on Mobile
   color: theme.palette.common.white,
   backgroundColor: alpha(theme.palette.grey[900], 0.6),
 }));
@@ -33,10 +31,11 @@ enum ORIENTATION {
   HORIZONTAL,
 }
 
-type IImage = { title: string; img: string };
+type IImage = { title: string; img: string; imgThumbnail?: string };
 
 interface IProps {
   images: IImage[];
+  reactModalStyle?: any;
 }
 
 interface IState {
@@ -86,12 +85,12 @@ class ImagesGrid extends Component<IProps, IState> {
     );
   };
 
-  public _OneImageRender: FunctionComponent<{ image: IImage }> = ({ image: { title, img } }) => {
+  public _OneImageRender: FunctionComponent<{ image: IImage }> = ({ image: { title, img, imgThumbnail } }) => {
     return (
       <CardActionArea onClick={() => this._handleImageClick(0)}>
         <Grid container>
           <Grid item xs={12}>
-            <CoverStyle alt={title} src={img} />
+            <CoverStyle alt={title} src={imgThumbnail || img} />
           </Grid>
         </Grid>
       </CardActionArea>
@@ -101,11 +100,11 @@ class ImagesGrid extends Component<IProps, IState> {
   public _TowImageRender: FunctionComponent<{ images: [IImage, IImage] }> = ({ images }) => {
     return (
       <Grid container spacing={0.2}>
-        {images.map(({ title, img }, index) => (
+        {images.map(({ title, img, imgThumbnail }, index) => (
           <Grid key={`${index}-${img}`} item xs={6}>
             <CardActionArea onClick={() => this._handleImageClick(index)}>
               <AspectRatioBox ratio={1}>
-                <CoverStyle alt={title} src={img} />
+                <CoverStyle alt={title} src={imgThumbnail || img} />
               </AspectRatioBox>
             </CardActionArea>
           </Grid>
@@ -115,7 +114,6 @@ class ImagesGrid extends Component<IProps, IState> {
   };
 
   public _ThreeAndMoreImageRender: FunctionComponent<{ images: IImage[] }> = ({ images }) => {
-    const imageFirst = images[0];
     const imageCount = images.length;
 
     if (this.state.fistImagePosition === ORIENTATION.HORIZONTAL || imageCount > 4) {
@@ -123,11 +121,11 @@ class ImagesGrid extends Component<IProps, IState> {
         <Grid container spacing={0.2}>
           <Grid item xs={12} height={'100%'}>
             <Grid container spacing={0.2}>
-              {images.slice(0, imageCount < 5 ? 1 : 2).map(({ title, img }, index) => (
+              {images.slice(0, imageCount < 5 ? 1 : 2).map(({ title, img, imgThumbnail }, index) => (
                 <Grid key={`${index}-${img}`} item xs={imageCount < 5 ? 12 : 6}>
                   <CardActionArea onClick={() => this._handleImageClick(index)}>
                     <AspectRatioBox ratio={imageCount < 5 ? undefined : 1}>
-                      <CoverStyle ref={index === 0 ? this._fistImage : undefined} alt={title} src={img} onLoad={index === 0 ? this._handleImageLoad : undefined} />
+                      <CoverStyle ref={index === 0 ? this._fistImage : undefined} alt={title} src={imgThumbnail || img} onLoad={index === 0 ? this._handleImageLoad : undefined} />
                     </AspectRatioBox>
                   </CardActionArea>
                 </Grid>
@@ -136,11 +134,11 @@ class ImagesGrid extends Component<IProps, IState> {
           </Grid>
           <Grid item xs={12}>
             <Grid container spacing={0.2}>
-              {images.slice(imageCount < 5 ? 1 : 2, 5).map(({ title, img }, index) => (
+              {images.slice(imageCount < 5 ? 1 : 2, 5).map(({ title, img, imgThumbnail }, index) => (
                 <Grid key={`${index}-${img}`} item xs={imageCount === 3 ? 6 : 4}>
                   <CardActionArea onClick={() => this._handleImageClick(index + (imageCount < 5 ? 1 : 2))}>
                     <AspectRatioBox ratio={1}>
-                      <CoverStyle alt={title} src={img} />
+                      <CoverStyle alt={title} src={imgThumbnail || img} />
                     </AspectRatioBox>
                     {index === 2 && imageCount > 5 && this._HoverMoreRender({ imageCount })}
                   </CardActionArea>
@@ -151,22 +149,22 @@ class ImagesGrid extends Component<IProps, IState> {
         </Grid>
       );
     }
-
+    const imageFirst = images[0];
     return (
       <AspectRatioBox ratio={1}>
         <Grid container spacing={0.2}>
           <Grid item xs={imageCount === 3 ? 6 : 8}>
             <CardActionArea sx={{ height: '100%' }} onClick={() => this._handleImageClick(0)}>
-              <CoverStyle ref={this._fistImage} alt={imageFirst.title} src={imageFirst.img} onLoad={this._handleImageLoad} />
+              <CoverStyle ref={this._fistImage} alt={imageFirst.title} src={imageFirst.imgThumbnail || imageFirst.img} onLoad={this._handleImageLoad} />
             </CardActionArea>
           </Grid>
           <Grid item xs={imageCount === 3 ? 6 : 4}>
             <Grid container spacing={0.2}>
-              {images.slice(1).map(({ title, img }, index) => (
+              {images.slice(1).map(({ title, img, imgThumbnail }, index) => (
                 <Grid key={`${index}-${img}`} item xs={12}>
                   <CardActionArea onClick={() => this._handleImageClick(index + 1)}>
                     <AspectRatioBox ratio={1}>
-                      <CoverStyle alt={title} src={img} />
+                      <CoverStyle alt={title} src={imgThumbnail || img} />
                     </AspectRatioBox>
                     {index === 2 && imageCount > 5 && this._HoverMoreRender({ imageCount })}
                   </CardActionArea>
@@ -196,11 +194,11 @@ class ImagesGrid extends Component<IProps, IState> {
 
   public render(): ReactNode {
     const { _SelectorRender, _lightBoxRef } = this;
-    const { images } = this.props;
+    const { images, reactModalStyle } = this.props;
     return (
       <Card>
         <_SelectorRender />
-        <LightBox ref={_lightBoxRef} images={images} />
+        <LightBox ref={_lightBoxRef} images={images} reactModalStyle={reactModalStyle} />
       </Card>
     );
   }
