@@ -39,7 +39,7 @@ const IMAGES:IMuiFbPhotoGridImage[] = [
 ]
 
 <MuiFbPhotoGrid
-  images={images} // require
+  images={IMAGES} // require
   reactModalStyle={{overlay: { zIndex: 2000 }}} // optional (https://github.com/reactjs/react-modal#styles)
 />;
 
