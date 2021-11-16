@@ -1,6 +1,5 @@
 import React, { forwardRef, ForwardRefRenderFunction, Fragment, useImperativeHandle, useState } from 'react';
 import ReactImageLightBox from 'react-image-lightbox';
-import 'react-image-lightbox/style.css';
 import { IImage } from './ImagesGrid';
 
 type IRef = {
@@ -34,15 +33,19 @@ const LightBox: ForwardRefRenderFunction<IRef, IProps> = ({ images, reactModalSt
   }
 
   return (
-    <ReactImageLightBox
-      reactModalStyle={reactModalStyle}
-      mainSrc={images[currentIndex].img}
-      nextSrc={images[(currentIndex + 1) % images.length]?.img}
-      prevSrc={images[(currentIndex + images.length - 1) % images.length].img}
-      onCloseRequest={handleClose}
-      onMovePrevRequest={handleChangeImage('prev')}
-      onMoveNextRequest={handleChangeImage('next')}
-    />
+    <div>
+      <ReactImageLightBox
+        //imagePadding={300}
+        imageTitle={images[currentIndex].title}
+        reactModalStyle={reactModalStyle}
+        mainSrc={images[currentIndex].img}
+        nextSrc={images[(currentIndex + 1) % images.length]?.img}
+        prevSrc={images[(currentIndex + images.length - 1) % images.length].img}
+        onCloseRequest={handleClose}
+        onMovePrevRequest={handleChangeImage('prev')}
+        onMoveNextRequest={handleChangeImage('next')}
+      />
+    </div>
   );
 };
 export type { IRef as ILightBoxRef };
