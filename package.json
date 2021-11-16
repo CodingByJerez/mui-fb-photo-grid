@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "mui-fb-photo-grid",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "description": "gallery images similar facebook",
   "author": "Rodolphe Jerez <contact@codingbyjerez.com> (http://github.com/codingbyjerez)",
   "license": "MIT",
@@ -12,7 +12,6 @@
   "engines": {
     "node": ">=10"
   },
-  
   "keywords": [
     "react",
     "mui",
@@ -20,7 +19,6 @@
     "preview",
     "grid"
   ],
-  
   "publishConfig": {
     "registry": "https://www.npmjs.com/package/mui-fb-photo-grid"
   },
