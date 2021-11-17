@@ -85,7 +85,7 @@ class ImagesGrid extends Component<IProps, IState> {
     );
   };
 
-  public _OneImageRender: FunctionComponent<{ image: IImage }> = ({ image: { title, img, imgThumbnail } }) => {
+  private _OneImageRender: FunctionComponent<{ image: IImage }> = ({ image: { title, img, imgThumbnail } }) => {
     return (
       <CardActionArea onClick={() => this._handleImageClick(0)}>
         <Grid container>
@@ -97,7 +97,7 @@ class ImagesGrid extends Component<IProps, IState> {
     );
   };
 
-  public _TowImageRender: FunctionComponent<{ images: [IImage, IImage] }> = ({ images }) => {
+  private _TowImageRender: FunctionComponent<{ images: [IImage, IImage] }> = ({ images }) => {
     return (
       <Grid container spacing={0.2}>
         {images.map(({ title, img, imgThumbnail }, index) => (
@@ -113,7 +113,7 @@ class ImagesGrid extends Component<IProps, IState> {
     );
   };
 
-  public _ThreeAndMoreImageRender: FunctionComponent<{ images: IImage[] }> = ({ images }) => {
+  private _ThreeAndMoreImageRender: FunctionComponent<{ images: IImage[] }> = ({ images }) => {
     const imageCount = images.length;
 
     if (this.state.fistImagePosition === ORIENTATION.HORIZONTAL || imageCount > 4) {
